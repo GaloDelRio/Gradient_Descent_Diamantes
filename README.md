@@ -63,14 +63,12 @@ Esto asegura que todas las variables tengan la misma escala y el bias del modelo
 Se implementa una función personalizada `gradient_descent_` que:
 1. Inicializa los pesos y bias en 0.  
 2. Iterativamente actualiza parámetros en base a:  
-   - **Predicción:** \( y_{pred} = X \cdot w + b \)  
-   - **Costo (MSE):** \( \frac{1}{n}\sum (y - y_{pred})^2 \)  
+   - **Predicción:**  y_pred = X \cdot w + b  
+   - **Costo (MSE):** frac{1}{n}\sum (y - y_pred)^2   
    - **Gradientes:** cálculo de derivadas parciales para `w` y `b`.  
    - **Actualización:**  
-     \[
      w := w - \alpha \cdot dw, \quad b := b - \alpha \cdot db
-     \]
-   - donde \(\alpha\) es la tasa de aprendizaje (`learning_rate`).  
+   - donde alpha es la tasa de aprendizaje (`learning_rate`).  
 
 3. Registra el historial de costos para graficar la convergencia.
 

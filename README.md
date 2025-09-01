@@ -96,3 +96,6 @@ Se grafica el **historial del costo (MSE) vs. número de iteraciones** para veri
 
 Ejemplo de salida esperada:
 
+<img width="661" height="452" alt="image" src="https://github.com/user-attachments/assets/8992bead-9942-4d4b-951b-ecde9271e687" />
+
+

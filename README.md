@@ -25,9 +25,9 @@ El objetivo es:
 ---
 
 ## 3. Descarga y carga de datos
-- El dataset se descarga automáticamente usando `kagglehub`.
+- El dataset ya viene en el repositosrio pero se puede cargar desde kaggle de ser necesario con una API.
 - Se carga con **pandas** en un DataFrame.
-- Se muestra una vista previa (`df.head()`) para verificar que los datos se obtuvieron correctamente.
+
 
 ---
 

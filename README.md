@@ -4,6 +4,22 @@
 
 Este proyecto implementa un  algoritmo sin usar ninguna biblioteca o framework de aprendizaje máquina, ni de estadística avanzada. El objetivo es códificar **Gradient Descent** en Python, para predecir el **precio de diamantes** a partir de sus características físicas.
 
+## ¿Qué es el Gradient Descent y para qué sirve en este problema?
+
+El **Descenso de Gradiente (Gradient Descent)** es un algoritmo de optimización que permite encontrar los valores óptimos de los parámetros (pesos y bias) en un modelo de regresión o de aprendizaje automático. Su idea central es ir ajustando los parámetros paso a paso en la dirección en la que el **costo (error)** disminuye más rápido, hasta acercarse al mínimo posible.  
+
+En este proyecto, se utiliza **Gradient Descent** porque:  
+- Estamos entrenando un **modelo de regresión lineal múltiple** que predice el precio de diamantes.  
+- Necesitamos encontrar los parámetros `w` (pesos de cada variable como carat, depth, x, y, z) y `b` (bias) que mejor ajusten los datos.  
+- El algoritmo evalúa las predicciones, calcula el **error cuadrático medio (MSE)** y ajusta los parámetros de forma iterativa para reducir ese error.  
+
+De esta forma, Gradient Descent nos permite:  
+- **Ajustar automáticamente los parámetros** sin necesidad de resolver fórmulas matriciales complejas.  
+- **Manejar grandes datasets** como el de diamantes (50,000+ registros) de forma eficiente.  
+- **Visualizar la convergencia**: podemos ver cómo el error se reduce en cada iteración hasta llegar a un punto estable.  
+
+
+
 ---
 
 ##  1. Objetivo del proyecto

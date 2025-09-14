@@ -59,9 +59,9 @@ Este proyecto entrena un **Random Forest Regressor** (bosque aleatorio) para pre
 ---
 
 ## 5. Hiperparámetros clave (usados en el script)
-- `n_estimators=300` → número de árboles; más árboles ⇒ menor varianza (mayor costo computacional).
-- `max_depth=15` → limita profundidad para evitar sobreajuste.
-- `min_samples_split=5`, `min_samples_leaf=2` → controlan tamaño mínimo de nodos.
+- `n_estimators` → número de árboles; más árboles ⇒ menor varianza (mayor costo computacional).
+- `max_depth` → limita profundidad para evitar sobreajuste.
+- `min_samples_split`, `min_samples_leaf` → controlan tamaño mínimo de nodos.
 - `max_features="sqrt"` → aleatoriza *features* por split (buena práctica en bosques).
 - `random_state=42` → reproducibilidad.
 - `n_jobs=-1` → usa todos los núcleos disponibles.
@@ -82,6 +82,8 @@ Este proyecto entrena un **Random Forest Regressor** (bosque aleatorio) para pre
 
 ## 7. Gráficas generadas (archivos .png)
 El script guarda imágenes listas para insertar en reportes:
+
+Ejemplo:
 
 1. **`rf_parity_all.png`** – *Parity plots* (Train/Validation/Test)  
    - Dispersión *precio real vs. predicho* + diagonal ideal.  
@@ -120,7 +122,7 @@ El script guarda imágenes listas para insertar en reportes:
 
 ---
 
-## 10. Buenas prácticas y próximos pasos
+## 9. Buenas prácticas y próximos pasos
 - Validar sensibilidad a hiperparámetros (p. ej., `max_depth`, `min_samples_leaf`, `max_features`).
 - Probar más *features*: razones (`x/y`, `y/z`), volumen aproximado (`x*y*z`), calidad/corte/claridad si están disponibles.
 - Evaluar **intervalos de predicción** (cuantiles por árbol) y **feature importance** (Gini/Permutation).

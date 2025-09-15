@@ -143,6 +143,11 @@
 
 ---
 
+### Conclusión – Primera iteración
+El modelo logra **buen poder predictivo** en validación y prueba (R²≈0.87–0.88), pero muestra **sobreajuste leve**: el R² en entrenamiento (0.98) es muy superior. La calibración es razonable con **sesgo bajo**, aunque **subestima precios altos** y **sobreestima bajos**; además, los **residuales presentan colas largas** y la **heterocedasticidad** es evidente (errores crecen con el precio). En síntesis, es un punto de partida sólido pero con **varianza alta** y margen para controlar complejidad.
+
+---
+
 ## Propuesta de mejoras en hiperparámetros
 
 Con base en los resultados obtenidos y el diagnóstico de ligera heterocedasticidad y overfitting, estos son cambios que se le realizaran a los hiperparámetros del modelo:
@@ -169,6 +174,7 @@ Con base en los resultados obtenidos y el diagnóstico de ligera heterocedastici
   Justificación: introduce poda mínima que ayuda a controlar la complejidad de los árboles.
 
 ---
+
 
 # Segunda Iteración – Random Forest (con ajustes de hiperparámetros)
 
@@ -297,5 +303,170 @@ Con base en los resultados obtenidos y el diagnóstico de ligera heterocedastici
 
 ---
 
+### Conclusión – Segunda iteración
+Los ajustes (profundidad limitada, mayor regularización y menos árboles) **reducen el overfitting**: el gap train–test baja (R² train≈0.91 vs test≈0.89) y **mejoran ligeramente MSE/MAE** en validación/prueba. La **calibración se acerca más a la diagonal**, el **sesgo es casi nulo** y los **residuales son más compactos** (menos outliers). Persiste, no obstante, **heterocedasticidad** en precios altos. Globalmente, el modelo queda **más equilibrado y estable**.
 
- 
+---
+
+## Propuesta de mejoras en hiperparámetros
+
+Con base en los resultados obtenidos en la segunda iteración y el diagnóstico de heterocedasticidad y errores elevados en diamantes caros, estos son los cambios que se realizarán a los hiperparámetros del modelo:
+
+- **`max_depth`:** Reducir de **15** a **12**.  
+  Justificación: controla mejor la complejidad de los árboles, reduciendo el riesgo de sobreajuste y mejorando la estabilidad en precios altos.
+
+- **`min_samples_leaf`:** Aumentar de **5** a **10**.  
+  Justificación: obliga a que cada hoja tenga más observaciones, suavizando las predicciones y disminuyendo la influencia de outliers.
+
+- **`max_features`:** Cambiar de **"sqrt"** a **"log2"**.  
+  Justificación: reduce el número de variables consideradas en cada división, aumentando la diversidad entre árboles y reduciendo la correlación de predicciones.
+
+- **`n_estimators`:** Mantener en **100**.  
+  Justificación: el error se estabiliza después de ~100 árboles, por lo que no es necesario incrementar el número.
+
+- **`ccp_alpha`:** Mantener en **0.001**.  
+  Justificación: poda ligera que ayuda a controlar la complejidad del modelo y disminuir el impacto de outliers.
+
+- **`bootstrap`:** Mantener en **True**.  
+  Justificación: la técnica de remuestreo sigue siendo adecuada para reducir la varianza del modelo.
+
+---
+
+# Tercera iteración e hiperparámetros ajustados
+**Hiperparámetros usados:**
+
+- `bootstrap`: **True**  
+- `ccp_alpha`: **0.001**  
+- `criterion`: **'squared_error'**  
+- `max_depth`: **12**  
+- `max_features`: **'log2'**  
+- `max_leaf_nodes`: **None**  
+- `max_samples`: **None**  
+- `min_impurity_decrease`: **0.0**  
+- `min_samples_leaf`: **10**  
+- `min_samples_split`: **10**  
+- `min_weight_fraction_leaf`: **0.0**  
+- `n_estimators`: **100**  
+- `n_jobs`: **-1**  
+- `oob_score`: **False**  
+- `random_state`: **42**  
+- `verbose`: **0**  
+- `warm_start`: **False**  
+
+## Resultados en entrenamiento (train)  
+- **R² (train):** 0.8991 → el modelo explica el **89.9%** de la variabilidad en entrenamiento.  
+
+## Resultados en validación  
+- **R² (validation):** 0.8824 → el modelo explica el **88.2%** de la variabilidad en datos no vistos.  
+- **MSE (validation):** 1,854,580.71  
+- **MAE (validation):** 756.62  
+
+## Resultados en prueba (test)  
+- **R² (test):** 0.8886 → el modelo explica el **88.9%** de la variabilidad en datos externos.  
+- **MSE (test):** 1,785,460.72  
+- **MAE (test):** 769.13  
+
+---
+
+## Interpretación del modelo  
+- **Precisión general:** El desempeño se mantiene sólido en validación y prueba, con métricas muy cercanas (R² ≈ 0.88–0.89).  
+- **Consistencia:** La diferencia entre train y test se redujo a ~0.01, lo que indica una buena capacidad de generalización.
+  
+- **Gap train–valid/test:** Mucho más controlado que en la primera iteración, confirmando la reducción del sobreajuste.  
+
+---
+
+## Diagnóstico  
+- **Bias (sesgo): Muy bajo.**  
+  En validación y test, el sesgo promedio es de –2 a –7 USD, prácticamente nulo.  
+
+- **Varianza: Moderada.**  
+  El modelo muestra buena estabilidad, aunque los errores siguen creciendo en precios altos.  
+
+- **Nivel de ajuste:** **Balanceado.**  
+  La pérdida de ajuste en entrenamiento se traduce en mayor robustez en datos externos.  
+
+---
+
+## Interpretación de las gráficas
+
+### 1. Calibración (Validation & Test)  
+- Pendientes ~0.885–0.887, cercanas al ideal (=1).  
+- Interceptos bajos (~436–448 USD).  
+- Ligeras subestimaciones en precios altos.
+
+  <img width="3570" height="1459" alt="image" src="https://github.com/user-attachments/assets/1bdcc9ad-cb8b-4564-9535-46a6f7e26b8d" />
+
+
+**Conclusión:** El modelo se encuentra bien calibrado, con menor sesgo que en iteraciones previas.  
+
+---
+
+### 2. Error por iteración (Random Forest, warm_start)  
+- **Train:** converge en ~1.6e6.  
+- **Validation/Test:** estabilización tras ~50 árboles.
+
+  <img width="2970" height="1766" alt="image" src="https://github.com/user-attachments/assets/e0b04665-d8e8-472d-86d3-e2ed42907b5e" />
+
+
+**Conclusión:** 100 árboles son suficientes; más no aportan mejoras.  
+
+---
+
+### 3. MAE y Bias por rango de carat (Test)  
+- **MAE:** aumenta con el tamaño → desde 104 USD (<0.3 carat) hasta >2000 USD (2–3 carats).  
+- **Bias:** cercano a 0 en la mayoría de rangos, salvo subestimación de –122 USD en diamantes grandes.
+
+  <img width="3570" height="1166" alt="image" src="https://github.com/user-attachments/assets/f88acf21-fbb4-4a39-ac5a-a24191f94758" />
+
+**Conclusión:** Excelente rendimiento en diamantes pequeños y medianos; los grandes siguen siendo el reto principal.  
+
+---
+
+### 4. Comparativa R² y Bias  
+- **R²:** 0.90 (train), 0.88 (valid), 0.89 (test).  
+- **Bias:** prácticamente nulo en todos los conjuntos.
+
+  <img width="3570" height="1166" alt="image" src="https://github.com/user-attachments/assets/eab36a37-cce9-48f9-b1f4-98cc4d032f5f" />
+
+
+**Conclusión:** Buen balance entre ajuste y generalización, con sesgo controlado.  
+
+---
+
+### 5. Parity Plots (Train/Validation/Test)  
+- **Train:** dispersión moderada.  
+- **Validation/Test:** mejor alineación con la diagonal en comparación con la primera iteración.
+
+  <img width="4770" height="1466" alt="image" src="https://github.com/user-attachments/assets/54d8b2e0-370a-47e5-ac72-f19ea57118a8" />
+
+
+**Conclusión:** Reducción de overfitting y mejor desempeño en precios altos.  
+
+---
+
+### 6. Histogramas de residuales (Validation & Test)  
+- Distribución centrada en 0 y simétrica.  
+- Colas menos extremas que en iteraciones previas.
+
+  <img width="3570" height="1316" alt="image" src="https://github.com/user-attachments/assets/700eb6ab-fef6-4ef6-90d4-dc34ccfd3ffb" />
+
+
+**Conclusión:** Residuales más compactos y reducción de outliers.  
+
+---
+
+### 7. Residuales vs Predicted (Validation & Test)  
+- Persiste cierta heterocedasticidad: errores más grandes en diamantes caros.  
+- La dispersión de residuales es menor respecto a las primeras configuraciones.
+
+  <img width="3565" height="1316" alt="image" src="https://github.com/user-attachments/assets/2322bf6f-0d4f-4da3-a3e8-c91441b6001f" />
+
+
+**Conclusión:** Aunque los errores siguen aumentando con el precio, el modelo muestra mayor estabilidad.  
+
+---
+
+### Conclusión – Tercera iteración
+Con `max_depth=12`, `min_samples_leaf=10` y `max_features='log2'`, el modelo **mantiene o mejora marginalmente** la generalización (R² valid≈0.882, test≈0.889) y **cierra aún más el gap** con entrenamiento (R² train≈0.899). La **calibración sigue siendo buena** con **sesgo prácticamente nulo** y los **residuales se compactan**; sin embargo, **continúa la heterocedasticidad**, con **MAE elevado en diamantes grandes**. En resumen, es la configuración **más robusta hasta ahora**, con **mejor equilibrio** entre sesgo y varianza, aunque aún hay oportunidad de mejora específica en el segmento de **precios altos**.
+

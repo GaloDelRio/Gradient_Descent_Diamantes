@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score, mean_squared_error 
 
 # 1. Cargar los datos de entrenamiento en un DataFrame de pandas
-dataset_file = "train_diamonds.csv" # Archivo de entrenamiento
+dataset_file = "Gradient_Descent_Diamantes/train_diamonds.csv" # Archivo de entrenamiento
 print(f"Loading dataset from: {dataset_file}")
 df = pd.read_csv(dataset_file)
 
@@ -101,7 +101,7 @@ plt.close()
 # ------------------------------
 #  TEST: Evaluación con archivo separado
 # ------------------------------
-dataset_file_test = "test_diamonds.csv" # Archivo de prueba
+dataset_file_test = "Gradient_Descent_Diamantes/test_diamonds.csv" # Archivo de prueba
 print(f"\nLoading dataset from: {dataset_file_test}")
 df_test = pd.read_csv(dataset_file_test)
 

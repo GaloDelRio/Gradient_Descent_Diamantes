@@ -96,4 +96,31 @@ Ambos modelos fueron evaluados con un **conjunto de validación** y un **conjunt
 
 - **Regularización aplicada:**  
   - *Gradient Descent:* La estandarización de variables ayuda a estabilizar el entrenamiento.  
-  - *Random Forest:* Se aplicaron técnicas de regularización ajustando hiperparámetros (`max_depth`, `min_samples_leaf`, `min_samples_split`, `ccp_alpha`), lo que redujo el sobreajuste y mejoró la estabilidad.  
+  - *Random Forest:* Se aplicaron técnicas de regularización ajustando hiperparámetros (`max_depth`, `min_samples_leaf`, `min_samples_split`, `ccp_alpha`), lo que redujo el sobreajuste y mejoró la estabilidad.
+ 
+---
+
+## Instalación y uso rápido
+
+1. **Clona el repositorio y entra a la carpeta:**
+   ```powershell
+   git clone <URL-del-repo>
+   cd Gradient_Descent_Diamantes
+   ```
+
+2. **Crea un entorno virtual:**
+   ```powershell
+   python -m venv .venv
+   .venv\Scripts\activate
+   ```
+
+3. **Instala las dependencias:**
+   ```powershell
+   pip install -r requirements.txt
+   ```
+
+4. **Ejecuta los scripts:**
+   ```powershell
+   python main_gradient_descent.py
+   python main_random_forest.py
+   ```

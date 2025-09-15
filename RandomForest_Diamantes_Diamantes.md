@@ -120,12 +120,4 @@ Ejemplo:
 - Se guarda `rf_predictions_test.csv` con: `carat, depth, x, y, z, price, pred_price`.  
 - Útil para análisis posteriores y *auditoría* del modelo.
 
----
 
-## 9. Buenas prácticas y próximos pasos
-- Validar sensibilidad a hiperparámetros (p. ej., `max_depth`, `min_samples_leaf`, `max_features`).
-- Probar más *features*: razones (`x/y`, `y/z`), volumen aproximado (`x*y*z`), calidad/corte/claridad si están disponibles.
-- Evaluar **intervalos de predicción** (cuantiles por árbol) y **feature importance** (Gini/Permutation).
-- Considerar **Gradient Boosting/XGBoost** para potenciales mejoras de error y calibración.
-
----

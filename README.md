@@ -1,115 +1,99 @@
-# Gradient_Descent_Diamantes
+# Predicción de Precios de Diamantes 💎
 
-#  Regresión Lineal con Descenso de Gradiente – Dataset Diamonds (Kaggle)
-
-Este proyecto implementa un  algoritmo sin usar ninguna biblioteca o framework de aprendizaje máquina, ni de estadística avanzada. El objetivo es códificar **Gradient Descent** en Python, para predecir el **precio de diamantes** a partir de sus características físicas.
-
-## ¿Qué es el Gradient Descent y para qué sirve en este problema?
-
-El **Descenso de Gradiente (Gradient Descent)** es un algoritmo de optimización que permite encontrar los valores óptimos de los parámetros (pesos y bias) en un modelo de regresión o de aprendizaje automático. Su idea central es ir ajustando los parámetros paso a paso en la dirección en la que el **costo (error)** disminuye más rápido, hasta acercarse al mínimo posible.  
-
-En este proyecto, se utiliza **Gradient Descent** porque:  
-- Estamos entrenando un **modelo de regresión lineal múltiple** que predice el precio de diamantes.  
-- Necesitamos encontrar los parámetros `w` (pesos de cada variable como carat, depth, x, y, z) y `b` (bias) que mejor ajusten los datos.  
-- El algoritmo evalúa las predicciones, calcula el **error cuadrático medio (MSE)** y ajusta los parámetros de forma iterativa para reducir ese error.  
-
-De esta forma, Gradient Descent nos permite:  
-- **Ajustar automáticamente los parámetros** sin necesidad de resolver fórmulas matriciales complejas.  
-- **Manejar grandes datasets** como el de diamantes (50,000+ registros) de forma eficiente.  
-- **Visualizar la convergencia**: podemos ver cómo el error se reduce en cada iteración hasta llegar a un punto estable.  
-
-
+Este repositorio contiene la implementación y análisis de distintos modelos de **Machine Learning** para predecir el **precio de diamantes** a partir de sus características físicas (`carat`, `depth`, `x`, `y`, `z`).  
+Se trabaja con el dataset [Diamonds de Kaggle](https://www.kaggle.com/datasets/shivam2503/diamonds), que incluye más de 50,000 registros.
 
 ---
 
-##  1. Objetivo del proyecto
-El objetivo es:
-- Entrenar un modelo de **regresión lineal múltiple** utilizando **Gradient Descent**.
-- Predecir el **precio de diamantes** (`price`) con base en variables como `carat`, `depth`, `x`, `y`, `z`.
-- Evaluar el modelo con **Error Cuadrático Medio (MSE)** y **Coeficiente de Determinación (R²)**.
-- Visualizar la convergencia del algoritmo (historial del costo).
+## Archivos del repositorio
+
+### Implementaciones
+- **`Gradient_Descent_Diamantes.md`** → Explicación del algoritmo de **Regresión Lineal con Descenso de Gradiente**, implementado desde cero en Python, con pasos de preprocesamiento, estandarización y entrenamiento.  
+- **`RandomForest_Diamantes_Diamantes.md`** → Implementación del modelo **Random Forest Regressor**, incluyendo justificación teórica, preprocesamiento, entrenamiento, métricas y generación de gráficas de evaluación.  
+
+### Análisis de resultados
+- **`Análisis_Resultados_Gradient_Descent.md`** → Resultados de la regresión lineal con descenso de gradiente (R², MSE, interpretación de pesos y sesgo).  
+- **`Análisis_Resultados_Random_Forest.md`** → Análisis detallado de varias iteraciones del Random Forest, con ajuste de hiperparámetros, diagnóstico de bias/varianza, gráficas de residuales, calibración y comparación entre train/validation/test.  
 
 ---
 
-##  2. Dataset elegido y justificación
-**Dataset:** [Diamonds (Kaggle)](https://www.kaggle.com/datasets/shivam2503/diamonds)
+## Modelos implementados
 
-### ¿Por qué este dataset?
-- Tiene más de **50,000 registros**, lo cual da robustez estadística.
-- Variables predictivas (`carat`, `depth`, `x`, `y`, `z`) tienen **relación fuerte con el precio**.
+### Regresión Lineal con Descenso de Gradiente
+- Implementado sin librerías de ML, solo con **Python y NumPy**.  
+- R² ≈ **0.82** en train y test.  
+- `carat` y dimensiones físicas (`x`, `y`, `z`) son las variables más influyentes.  
+- Buen balance entre entrenamiento y prueba → sin overfitting ni underfitting.
 
----
-
-## 3. Descarga y carga de datos
-- El dataset ya viene en el repositosrio pero se puede cargar desde kaggle de ser necesario con una API.
-- Se carga con **pandas** en un DataFrame.
-
-
----
-
-##  4. Limpieza y preprocesamiento
-1. **Eliminar duplicados** → evitar sesgos en el entrenamiento.  
-2. **Revisar valores nulos** → confirmación de que el dataset está completo.  
-3. **Filtrar valores inválidos** (`x`, `y`, `z` > 0) → descartar diamantes con dimensiones físicas imposibles.  
-4. **Eliminar outliers** (`price < 20000`) → evitar que valores extremos distorsionen el ajuste.  
+### Random Forest Regressor
+- Modelo de ensamble de árboles, robusto a no linealidades y outliers.  
+- R² en validación y prueba ≈ **0.88–0.89** tras ajuste de hiperparámetros.  
+- Ligero overfitting en la primera configuración, corregido en iteraciones posteriores.  
+- Mejor desempeño en diamantes pequeños y medianos; mayor error en diamantes grandes.  
 
 ---
 
-## 5. Selección de variables
-- **Features (`X`) seleccionadas:**
-  - `carat` → peso en quilates.  
-  - `depth` → profundidad relativa.  
-  - `x`, `y`, `z` → dimensiones físicas (longitud, ancho, alto).  
-
-- **Variable objetivo (`y`):**
-  - `price` → precio del diamante.  
+## Objetivo
+Comparar enfoques de **modelos lineales** (Gradient Descent) vs. **modelos de ensamble** (Random Forest), evaluando:
+- Precisión predictiva (R², MSE, MAE).
+- Sesgo (bias).
+- Capacidad de generalización.  
+- Comportamiento del error en función del tamaño del diamante.
 
 ---
 
-## 6. Estandarización
-Para mejorar la convergencia del Descenso de Gradiente:  
-- Se **estandarizan las features (`X`)**: media = 0, desviación estándar = 1.  
-- Se **estandariza también la variable objetivo (`y`)** para centrarla en 0.  
-
-Esto asegura que todas las variables tengan la misma escala y el bias del modelo tienda a 0.
+## Resultados clave
+- **Gradient Descent:** simple, interpretable, y buen ajuste con R²≈0.82.  
+- **Random Forest:** más complejo, mejor rendimiento con R²≈0.89 y menor sesgo.  
+- Ambos modelos muestran que los **diamantes grandes** son los más difíciles de predecir con exactitud.  
 
 ---
 
-## 7. Implementación del Gradient Descent
-Se implementa una función personalizada `gradient_descent_` que:
-1. Inicializa los pesos y bias en 0.  
-2. Iterativamente actualiza parámetros en base a:  
-   - **Predicción:**  y_pred = X \cdot w + b  
-   - **Costo (MSE):** frac{1}{n}\sum (y - y_pred)^2   
-   - **Gradientes:** cálculo de derivadas parciales para `w` y `b`.  
-   - **Actualización:**  
-     w := w - \alpha \cdot dw, \quad b := b - \alpha \cdot db
-   - donde alpha es la tasa de aprendizaje (`learning_rate`).  
-
-3. Registra el historial de costos para graficar la convergencia.
+## Tecnologías usadas
+- Python (NumPy, Pandas, Matplotlib, Scikit-learn).  
+- Dataset: Diamonds (Kaggle).  
+- Visualizaciones: Parity plots, histogramas de residuales, curvas de error.  
 
 ---
 
-## 8. Entrenamiento y evaluación
-- **Hiperparámetros usados:**
-  - `learning_rate = 0.001`
-  - `iterations = 2000`
-
-- **Evaluación:**
-  - **MSE (costo final)** → mide el error promedio al cuadrado.  
-  - **R² (Coeficiente de Determinación)** → mide qué porcentaje de la varianza en el precio es explicado por el modelo.  
-
-En los experimentos realizados:  
-- **MSE final ≈ 0.18 (en datos estandarizados).**  
-- **R² ≈ 0.82**, lo que indica un ajuste fuerte del modelo.  
+## Conclusión
+Este proyecto demuestra cómo distintos enfoques de Machine Learning capturan la relación entre las características físicas de un diamante y su precio.  
+- El **Gradient Descent** ofrece interpretabilidad y simplicidad.  
+- El **Random Forest** logra mayor precisión y estabilidad, a costa de menor interpretabilidad.  
 
 ---
 
-## 9. Visualización
-Se grafica el **historial del costo (MSE) vs. número de iteraciones** para verificar la convergencia del algoritmo de Descenso de Gradiente.
+## Evaluación del desempeño
 
-Ejemplo de salida esperada:
+- **Conjuntos usados:**  
+Ambos modelos fueron evaluados con un **conjunto de validación** y un **conjunto de prueba externo**, confirmando su capacidad de generalización.
 
-<img width="661" height="452" alt="image" src="https://github.com/user-attachments/assets/8992bead-9942-4d4b-951b-ecde9271e687" />
+- **Train (`train_diamonds.csv`)**  
+  Dataset principal de entrenamiento.  
+  - Limpieza: `x, y, z > 0` y `price < 20000` para eliminar valores inválidos y outliers.  
+  - División: **80% Train** y **20% Validation** mediante `train_test_split`.  
 
+- **Validation (20% del train)**  
+  Subconjunto interno usado para ajustar hiperparámetros y controlar el sobreajuste.  
 
+- **Test (`test_diamonds.csv`)**  
+  Conjunto externo e independiente para la **evaluación final**.  
+  - Mismos filtros que en train.  
+  - Se genera `rf_predictions_test.csv` con precios reales y predichos.  
+  
+
+- **Bias (sesgo):**  
+  - *Gradient Descent:* Bajo → errores centrados en 0, sin sobre/subestimación clara.  
+  - *Random Forest:* Bajo → sesgo prácticamente nulo en validación y prueba.  
+
+- **Varianza:**  
+  - *Gradient Descent:* Media → estable entre train y test, sin grandes caídas de rendimiento.  
+  - *Random Forest:* Media-Alta en la primera iteración (ligero overfit), reducida a **media** tras ajustes de hiperparámetros.  
+
+- **Nivel de ajuste:**  
+  - *Gradient Descent:* **Fit balanceado**, sin underfitting ni overfitting.  
+  - *Random Forest:* Inicialmente **ligero overfitting**, corregido en iteraciones posteriores → modelo más **equilibrado**.  
+
+- **Regularización aplicada:**  
+  - *Gradient Descent:* La estandarización de variables ayuda a estabilizar el entrenamiento.  
+  - *Random Forest:* Se aplicaron técnicas de regularización ajustando hiperparámetros (`max_depth`, `min_samples_leaf`, `min_samples_split`, `ccp_alpha`), lo que redujo el sobreajuste y mejoró la estabilidad.  
